@@ -8,6 +8,8 @@ request(BCV_URL, (error, response, html) => {
   if (!error && response.statusCode === 200){
     const $ = cheerio.load(html)
     
+    //Get the HTML element by a dolar ID, if this ever changes its ID or node class values,
+    //then the scrapper won't work
     const dollar = $('#dolar>.field-content>.row.recuadrotsmc>.col-sm-6.col-xs-6.centrado')
     const exchange = dollar.text()
     
