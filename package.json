@@ -2,7 +2,7 @@
   "name": "bcv-scrapper",
   "version": "1.0.0",
   "description": "Scrapper for Banco Centrar de Venezuela. This will only get the exchange currency dollar-bolivar and will not modify it.",
-  "main": "index.js",
+  "main": "scrape.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
