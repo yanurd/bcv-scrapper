@@ -1,6 +1,7 @@
 const request = require('request')
 const cheerio = require('cheerio')
-
+const update = require('./updateData')
+const token = require('./generateToken')
 //Endpoint to scrape
 const BCV_URL = 'http://www.bcv.org.ve/'
 
@@ -12,7 +13,8 @@ request(BCV_URL, (error, response, html) => {
     //then the scrapper won't work
     const dollar = $('#dolar>.field-content>.row.recuadrotsmc>.col-sm-6.col-xs-6.centrado')
     const exchange = dollar.text()
-    
+    const comment = $('.pull-right.dinpro.center')
+    const commentText = comment.text()
     /**
      * BCV returns a dollar value like this: 4,12132
      * but to work with float numbers, we must change that 
@@ -20,12 +22,17 @@ request(BCV_URL, (error, response, html) => {
      * 
      * Be careful when this number is bigger, like 100.000,02
      */
-    const transformExchange = exchange.split(',')
-    //transforming value
-    const intValue = transformExchange[0]
-    const floatValue = transformExchange[1]
+    const transformExchange = parseFloat(exchange.replace(',','.'))
+    
     //return exchange rate
-    const exchangeRate = `${intValue}.${floatValue}`
-    return console.log(parseFloat(exchangeRate))
+    const saveData = new Promise((resolve,reject) => {
+      setTimeout(() => {
+        let authToken = token.generateToken()
+        authToken ? resolve(authToken) : reject(error)
+      }, 100);
+    })
+    return saveData
+      .then(res => update.updateData(transformExchange,commentText,res))
+      .catch(error => console.error(error))
   }
 })
