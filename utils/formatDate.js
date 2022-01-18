@@ -1,13 +1,17 @@
-const formatDate = (date) => {
+function formatDate(date){
   /**
-   * @params {date} new Date JS object
+   * @params {date} ie. Fecha Valor: Martes, 18 Enero  2022
    * @returns 'dd MMMM YYYY' i.e '05 Enero 2022'
    */
-   const options = {year: 'numeric', month: 'long', day: 'numeric' }
+/*    const options = {year: 'numeric', month: 'long', day: 'numeric' }
    const formattedDate = date.toLocaleDateString('es-VE',options)
 
-   const requiredDateFormat = formattedDate.replaceAll('de','')
-   return requiredDateFormat
+   const requiredDateFormat = formattedDate.replaceAll('de','') */
+
+  const requiredDateFormat = date.split(',')[1].trim()
+  //replaces all duplicated whitespaces with a single space
+  const formattedDate = requiredDateFormat.replace(/ +(?= )/g,'');
+  return formattedDate
 }
 
-export default formatDate
+module.exports.formatDate = formatDate
